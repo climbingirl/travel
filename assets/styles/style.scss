@@ -1,0 +1,1474 @@
+@import 'vars';
+
+html {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: $color-green;
+    @extend %font-aleo;
+    position: relative;
+}
+
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+    transition: 0.3s;
+    color: $color-green;
+}
+
+.burger-menu {
+    display: none;
+    margin-right: 10px;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.5;
+    }
+
+    &__line {
+        width: 35px;
+        height: 3px;
+        margin-bottom: 6px;
+        background-color: $color-white;
+        border-radius: 5px;
+    }
+}
+
+.adaptive-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    background-color: $color-orange;
+    padding: 44px 15px 20px 44px;
+    box-shadow: 0px 4px 3px rgba(13, 96, 111, 0.25);
+    border-radius: 10px;
+    transition: 0.3s;
+    z-index: 30;
+
+    &__item {
+        margin-bottom: 10px;
+        text-align: right;
+    }
+
+    &__link {
+        font-family: 'Red Hat Text', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 21px;
+        color: $color-white;
+
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+
+    &__close-btn {
+        background-image: url(../img/svg/close-btn.svg);
+        display: block;
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        cursor: pointer;
+        opacity: 0.7;
+        transition: 0.3s;
+
+        &:hover {
+            opacity: 1;
+        }
+        
+    }
+
+    &.open {
+        right: 0;
+    }
+}
+
+.pop-up {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -100%;
+    margin: 0 auto;
+    max-width: 650px;
+    background: linear-gradient(177.09deg, #FFFFFF 6.15%, #0D606F 202.69%);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    z-index: 25;
+    transition: 0.5s;
+
+    &.open {
+        top: 100px;
+    }
+
+    &__inner {
+        padding: 25px 45px;
+    }
+
+    &__title {
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 38px;
+        color: $color-green;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    &__btn,
+    &__field {
+        width: 100%;
+        font-family: 'Red Hat Text', sans-serif;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 26px;
+        color: $color-green;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 56px;
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: $color-white;
+        border: none;
+        box-shadow: inset 0px 0px 3px rgba(13, 96, 111, 0.08), inset 0px 2px 3px rgba(13, 96, 111, 0.16);
+        border-radius: 10px;
+
+        svg {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+        }
+    }
+
+    &__btn {
+        cursor: pointer;
+    }
+
+    &__btn_facebook {
+        background-color: #1877F2;
+        color: $color-white;
+    }
+
+    &__form-btn {
+        background-color: $color-green;
+        color: $color-white;
+    }
+
+    &__or {
+        text-align: center;
+        overflow-x: hidden;
+        margin: 30px 0 5px;
+        
+        &-text {
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 24px;
+            color: rgba(13, 96, 111, 0.5);
+            padding: 0 9px;
+            position: relative;
+            
+            &::before,
+            &::after {
+                content: '';
+                height: 1px;
+                width: 300px;
+                background-color: rgba(13, 96, 111, 0.5);
+                position: absolute;
+                top: 50%;
+            }
+
+            &::before {
+                left: 0;
+                transform: translate(-100%);
+            }
+            
+            &::after {
+                right: 0;
+                transform: translate(100%);
+            }
+        }
+    }
+
+    &__hr {
+        border: none;
+        height: 1px;
+        background-color: rgba(13, 96, 111, 0.5);
+        margin: 20px 0;
+    }
+
+    &__field-box {
+        label {
+            font-size: 16px;
+            line-height: 19px;
+        }
+    }
+
+    &__hint,
+    &__hint-text {
+        font-size: 15px;
+        line-height: 18px;
+        text-shadow: 0px 2px 3px rgba(255, 255, 255, 0.16);
+        text-align: center;
+    }
+
+    &__hint {
+        font-weight: 700;
+        text-decoration-line: underline;
+        cursor: pointer;
+    }
+
+    &__hint_forgot {
+        display: block;
+    }
+
+    &.active {
+        display: block;
+    }
+}
+
+.overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    transition: 0.3s;
+    z-index: 20;
+
+    &.open {
+        display: block;
+    }
+
+    &.visible {
+        background: rgba(0, 0, 0, 0.25);
+    }
+}
+
+.wrapper {
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.container {
+    max-width: 1230px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.btn-box {
+    text-align: center;
+}
+
+.btn {
+    padding: 10px 32px;
+    border: 1px solid $color-green;
+    border-radius: 10px;
+    font-family: 'Red Hat Text', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+    text-transform: capitalize;
+    background-color: $color-green;
+    color: $color-white;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+        background-color: rgba(13, 96, 111, 0.5);
+    }
+}
+
+.btn-arrow {
+    position: relative;
+    padding: 13px 32px 13px 81px;
+
+    &::before {
+        content: '';
+        background-image: url(../img/svg/arrow-right.svg);
+        background-repeat: no-repeat;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 9px;
+        left: 31px;
+    }
+}
+
+.section-title {
+    font-family: 'Red Hat Text', sans-serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 53px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    color: $color-orange;
+}
+
+
+.header {
+    background: rgba(242, 120, 92, 0.7);
+    box-shadow: 0px 4px 4px rgba(13, 96, 111, 0.5);
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    
+    &__inner {
+        height: 90px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__logo-icon {
+        width: 30px;
+        height: 30px;
+        margin-right: 2px;
+    }
+
+    &__logo-text {
+        font-family: 'Magra', sans-serif;
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 39px;
+        color: $color-white;
+        margin-right: 12px;
+    }
+
+    &__btn-login{
+        font-size: 16px;
+        line-height: 21px;
+        padding: 10px 30px;
+    }
+}
+
+.nav-list {
+    display: flex;
+
+    &__item {
+        margin-right: 42px;
+
+        &:last-child {
+            margin-left: 0;
+        }
+    }
+
+    &__link {
+        font-family: 'Red Hat Text', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 21px;
+        color: $color-white;
+        text-transform: capitalize;
+
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+}
+
+.preview {
+    padding-top: 122px;
+    padding-bottom: 255px;
+    background-image: url(../img/preview-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    &__inner {
+        max-width: 892px;
+    }
+
+    &__title {
+        font-weight: 700;
+        font-size: 80px;
+        line-height: 96px;
+        color: $color-white;
+        margin-bottom: 32px;
+        margin-top: 0;
+    }
+
+    &__text {
+        font-style: italic;
+        color: $color-white;
+        letter-spacing: 0.1px;
+        margin-bottom: 46px;
+    }
+
+    &__form {
+        position: relative;
+    }
+
+    &__search {
+        width: 100%;
+        height: 95px;
+        border-radius: 16px;
+        border: none;
+        outline: none;
+        background: rgba(255, 255, 255, 0.7);
+        padding-left: 38px;
+        padding-right: 285px;
+        letter-spacing: -0.5px;
+        font-style: italic;
+        font-size: 24px;
+        line-height: 29px;
+
+        &::placeholder {
+            font-style: italic;
+            font-size: 24px;
+            line-height: 29px;
+            color: $color-orange;
+        }
+    }
+
+    &__btn {
+        position: absolute;
+        right: 18px;
+        top: 18px;
+        padding: 13px 32px;
+    }
+}
+
+.steps {
+    padding-top: 46px;
+    padding-bottom: 50px;
+
+    &__inner {
+        display: flex;
+        justify-content: space-between;
+        max-width: 1177px;
+        margin: 0 auto;
+    }
+
+    &__item-icon {
+        width: 100px;
+        height: 100px;
+        background-color: $color-orange;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 16px;
+        margin: 0 auto;
+        margin-bottom: 30px;
+    }
+
+    .icon-bike {
+        width: 50px;
+        height: 45px;
+    }
+
+    .icon-calendar {
+        width: 52px;
+        height: 52px;
+    }
+
+    .icon-plane {
+        width: 60px;
+        height: 45px;
+    }
+}
+
+.destinations {
+    padding-top: 14px;
+    padding-bottom: 15px;
+
+    &__title {
+        margin-bottom: 46px;
+    }
+
+    &-slider{
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+
+    &-slider__inner {
+        display: flex;
+        column-gap: 60px;
+        position: relative;
+        transition: 0.5s;
+    }
+
+    &-slider__item {
+        position: relative;
+        min-width: 800px;
+        min-height: 800px;
+
+        &_last-left {
+            opacity: 0.5;
+        }
+        &_last-right {
+            opacity: 0.5;
+        }
+    }
+
+    &-slider__img-box {
+        width: 100%;
+        height: 100%;
+    }
+
+    &-slider__img {
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+
+        &_small {
+            display: none;
+        }
+    }
+
+    &-slider__name {
+        position: absolute;
+        left: 15px;
+        bottom: 40px;
+        font-family: 'Red Hat Text', sans-serif;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 42px;
+        color: $color-white;
+        text-transform: uppercase;
+    }
+
+    &-dots__inner {
+        display: flex;
+        justify-content: center;
+        column-gap: 10px;
+    }
+
+    &-dots__item {
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        background: rgba(242, 120, 92, 0.5);
+
+        &_active {
+            background: $color-orange;
+        }
+    }
+
+    &__link {
+        margin-top: 40px;
+    }
+}
+
+.stories {
+    padding-top: 30px;
+
+    &-bg {
+        background-image: url(../img/stories-bg.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        padding-bottom: 61px;
+    }
+
+    &-noise {
+        background: rgba(255, 255, 255, 0.7);
+        padding-bottom: 40px;
+    }
+
+    &__inner {
+        padding-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        column-gap: 40px;
+        margin-bottom: 30px;
+
+        &-img-box {
+            filter: drop-shadow(0px 4px 4px #0D606F);
+            min-width: 400px;
+            min-height: 250px;
+            max-height: 250px;
+        }
+
+        &-img {
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+
+            &_1 {
+                background-image: url(../img/thailand.png);
+            }
+            &_2 {
+                background-image: url(../img/utah.png);
+            }
+            &_3 {
+                background-image: url(../img/mountain.png);
+            }
+            &_4 {
+                background-image: url(../img/climb.png);
+            }
+        }
+
+        &-title {
+            font-size: 35px;
+            line-height: 42px;
+            margin-bottom: 24px;
+        }
+
+        &-text {
+            margin-bottom: 0;
+            max-height: 144px;
+            overflow: hidden;
+        }
+
+        &-link {
+            text-decoration: underline;
+            font-weight: 700;
+        }
+    }
+}
+
+.footer {
+    margin-top: -53px;
+
+    &__inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__text {
+        font-family: 'Red Hat Text', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 21px;
+        color: $color-white;
+    }
+
+    &__social-list {
+        display: flex;
+        align-items: center;
+    }
+
+    .social-list__item {
+        margin-right: 20px;
+        line-height: 0;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .icon-rsschool {
+        width: 100px;
+        height: 42px;
+    }
+
+    .icon-github {
+        height: 32px;
+        width: 32px;
+    }
+
+    .icon-instagram {
+        width: 32px;
+        height: 32px;
+    }
+
+    .icon-youtube {
+        width: 33px;
+        height: 28px;
+    }
+
+    .icon-twitter {
+        width: 33px;
+        height: 27px;
+    }
+}
+
+.icon-logo,
+.icon-rsschool,
+.icon-github,
+.icon-instagram,
+.icon-youtube,
+.icon-twitter {
+    transition: 0.3s;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}
+
+// adaptive
+
+@media (max-width: 1439px) {
+    .destinations {
+        &-slider__inner {
+            column-gap: 40px;
+        }
+
+        &-slider__item {
+            min-width: 600px;
+            min-height: 600px;
+        }
+
+        &-slider__name {
+            font-size: 27px;
+            line-height: 35px;
+            bottom: 30px;
+        }
+
+        &-dots__item {
+            width: 15px;
+            height: 15px;
+        }
+    }
+}
+
+@media (max-width: 1279px) {
+    .stories {
+        &__item-img-box {
+            min-width: 350px;
+            min-height: 218px;
+            max-height: 218px;
+        }
+
+        &__item-title {
+            font-size: 30px;
+            line-height: 35px;
+            margin-bottom: 15px;
+        }
+
+        &__item-text {
+            margin-top: 10px;
+            max-height: 134px;
+        }
+    }
+}
+
+@media (max-width: 1023px) {
+    .btn {
+        padding: 10px 25px;
+        font-size: 22px;
+        line-height: 28px;
+    }
+
+    .btn-arrow {
+        padding-left: 61px;
+    
+        &::before {
+            height: 30px;
+            width: 30px;
+            left: 25px;
+        }
+    }
+
+    .section-title {
+        font-size: 35px;
+        line-height: 45px;
+    }
+
+    .header {
+        &__logo-text {
+            display: none;
+        }
+
+        &__btn-login {
+            font-size: 16px;
+            line-height: 21px;
+        }
+    }
+
+    .nav-list__item {
+        margin-right: 35px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .preview {
+        padding-bottom: 200px;
+
+        &__title {
+            font-size: 60px;
+            line-height: 76px;
+            max-width: 690px;
+        }
+
+        &__search {
+            height: 70px;
+            padding-left: 25px;
+            padding-right: 250px;
+            font-size: 22px;
+            line-height: 26px;
+    
+            &::placeholder {
+                font-size: 22px;
+                line-height: 26px;
+            }
+        }
+
+        &__btn {
+            right: 11px;
+            top: 11px;
+        }
+    }
+
+    .steps__item-icon {
+        width: 85px;
+        height: 85px;
+    }
+
+    .stories__item {
+        &-img-box {
+            min-width: 300px;
+            min-height: 187px;
+            max-height: 187px;
+        }
+
+        &-title {
+            margin-bottom: 10px;
+        }
+
+        &-text {
+            max-height: 122px;
+        }
+    }
+}
+
+@media (max-width: 900px) {
+    .preview {
+        padding-bottom: 180px;
+
+        &__title {
+            font-size: 50px;
+            line-height: 66px;
+            max-width: 570px;
+        }
+    }
+
+    .steps__item {
+        font-size: 16px;
+        line-height: 18px;
+    }
+
+    .destinations {
+        &-slider__inner {
+            column-gap: 25px;
+        }
+    
+        &-slider__item {
+            min-width: 500px;
+            min-height: 500px;
+        }
+
+        &-slider__name {
+            font-size: 20px;
+            line-height: 25px;
+            bottom: 20px;
+        }
+    }
+
+    .stories {
+        &__item {
+            column-gap: 20px;
+        }
+
+        &__item-img-box {
+            min-width: 250px;
+            min-height: 156px;
+            max-height: 156px;
+        }
+
+        &__item-title {
+            font-size: 25px;
+            line-height: 30px;
+        }
+
+        &__item-text {
+            max-height: 97px;
+        }
+    }   
+}
+
+@media (max-width: 767px) {
+    .btn {
+        padding: 8px 15px;
+        font-size: 15px;
+        line-height: 18px;
+    }
+
+    .btn-arrow {
+        padding-left: 45px;
+    
+        &::before {
+            height: 15px;
+            width: 15px;
+            left: 15px;
+        }
+    }
+
+    .section-title {
+        font-size: 25px;
+        line-height: 35px;
+    }
+
+    .nav,
+    .header__btn-login {
+        display: none;
+    }
+
+    .header {
+        box-shadow: none;
+        background: none;
+    }
+
+    .burger-menu {
+        display: block;
+    }
+
+    .pop-up {
+        &__inner {
+            padding: 20px 20px;
+        }
+
+        &.open {
+            top: 65px;
+        }
+    }
+
+    .preview {
+        padding-bottom: 150px;
+
+        &__title {
+            font-size: 40px;
+            line-height: 55px;
+            max-width: 450px;
+        }
+
+        &__search {
+            height: 60px;
+            padding-left: 16px;
+            padding-right: 180px;
+            font-size: 16px;
+            line-height: 18px;
+    
+            &::placeholder {
+                font-size: 16px;
+                line-height: 18px;
+            }
+        }
+
+        &__btn {
+            right: 12px;
+            top: 12px;
+        }
+    }
+
+    .steps {
+        &__inner {
+            column-gap: 15px;
+        }
+
+        &__item {
+            text-align: center;
+        }
+
+        &__item-icon {
+            width: 70px;
+            height: 70px;
+        } 
+
+        .icon-bike {
+            width: 35px;
+            height: 31px;
+        }
+    
+        .icon-calendar {
+            width: 35px;
+            height: 35px;
+        }
+    
+        .icon-plane {
+            width: 40px;
+            height: 30px;
+        }
+    }
+
+    .destinations {
+        &-slider__item {
+            min-width: 400px;
+            min-height: 400px;
+        }
+
+        &-slider__name {
+            font-size: 15px;
+            line-height: 20px;
+            bottom: 15px;
+        }
+
+        &-dots__item {
+            width: 8px;
+            height: 8px;
+        }
+    }
+
+    .stories {
+        &-noise {
+            padding-bottom: 13px;
+        }
+
+        &__inner {
+            margin-bottom: 10px;
+            padding-top: 10px;
+        }
+
+        &__item {
+            margin-bottom: 20px;
+            column-gap: 10px;
+        }
+
+        &__item-img-box {
+            min-width: 155px;
+            min-height: 130px;
+            max-height: 130px;
+        }
+
+        &__item-img_1 {
+            background-image: url(../img/thailand-small.png);
+        }
+        &__item-img_2 {
+            background-image: url(../img/utah-small.png);
+        }
+        &__item-img_3 {
+            background-image: url(../img/mountain-small.png);
+        }
+        &__item-img_4 {
+            background-image: url(../img/climb-small.png);
+        }
+
+        &__item-title {
+            font-weight: 700;
+            font-size: 17px;
+            line-height: 25px;
+            margin-bottom: 10px;
+        }
+
+        &__item-text {
+            max-height: 81px;
+        }
+    } 
+
+    .footer__text {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .destinations {
+        &-slider__inner {
+            column-gap: 20px;
+        }
+
+        &-slider__item {
+            min-width: 360px;
+            min-height: 360px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .pop-up {
+        &__title {
+            font-size: 25px;
+            line-height: 30px;
+            margin-bottom: 20px;
+        }
+    
+        &__btn,
+        &__field {
+            font-size: 18px;
+            line-height: 23px;
+            height: 40px;
+            margin-bottom: 15px;
+            padding: 10px;
+    
+            svg {
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+            }
+        }
+    
+        &__or {
+            margin: 15px 0 5px;
+            
+            &-text {
+                font-weight: 700;
+                font-size: 17px;
+                line-height: 21px;
+                padding: 0 9px;
+            }
+        }
+    
+        &__hr {
+            margin: 15px 0;
+        }
+    
+        &__field-box {
+            label {
+                font-size: 15px;
+                line-height: 18px;
+            }
+        }
+    
+        &__hint,
+        &__hint-text {
+            font-size: 14px;
+            line-height: 16px;
+        }
+    }
+
+    .section-title {
+        font-size: 20px;
+        line-height: 25px;
+    }
+
+    .preview {
+        padding-bottom: 100px;
+
+        &__search {
+            font-size: 14px;
+            line-height: 17px;
+    
+            &::placeholder {
+                font-size: 14px;
+                line-height: 17px;
+            }
+        }
+    }
+
+    .preview__title,
+    .preview__text {
+        display: none;
+    }
+
+    .destinations {
+        padding-top: 9px;
+        padding-bottom: 0;
+
+        &__title {
+            margin-bottom: 20px;
+        }
+
+        &-slider__inner {
+            column-gap: 15px;
+        }
+    
+        &-slider__item {
+            min-width: 360px;
+            min-height: 210px;
+        }
+    
+        &-slider__img {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+    
+            &_desc {
+                display: none;
+            }
+            &_small {
+                display: block;
+            }
+        }
+    
+        &-slider__name {
+            left: 15px;
+            top: 8px;
+            font-size: 20px;
+            line-height: 26px;
+        }
+    
+        &-dots__inner {
+            column-gap: 6px;
+            margin-top: -15px;
+            z-index: 10;
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+
+        &__link {
+            margin-top: 10px;
+        }
+    }
+
+    .footer {
+        &__inner {
+            justify-content: center;
+        }
+
+        &__icon-box {
+            display: none;
+        }
+    }
+
+    .stories__item-text {
+        max-height: 77px;
+    }
+}
+
+@media (max-width: 450px) {
+    .destinations-slider{
+        position: relative;
+        margin-bottom: 0;
+
+        &__arrow {
+            width: 14px;
+            height: 25px;
+            position: absolute;
+            top: calc(50% - 14px);
+            z-index: 10;
+            cursor: pointer;
+
+            &_disabled {
+                opacity: 0.5;
+            }
+        }
+
+        &__arrow_left {
+            background-image: url(../img/svg/slider-arrow.svg);
+            left: 50px;
+        }
+
+        &__arrow_right {
+            background-image: url(../img/svg/slider-arrow.svg);
+            right: 50px;
+            z-index: 10;
+            transform: rotate(180deg);
+        }
+    }
+}
+
+@media (max-width: 425px) {
+    .destinations-slider{
+        &__arrow_left{
+            left: 37px;
+        }
+
+        &__arrow_right {
+            right: 37px;
+        }
+    }
+}
+
+@media (max-width: 390px) {
+    .pop-up.open {
+        top: 80px;
+    }
+
+    .btn {
+        padding: 7px 8px;
+        font-size: 11px;
+        line-height: 15px;
+    }
+
+    .btn-arrow {
+        padding-left: 29px;
+    
+        &::before {
+            height: 10px;
+            width: 10px;
+            left: 10px;
+        }
+    }
+
+    .section-title {
+        font-size: 14px;
+        line-height: 19px;
+    }
+
+    .preview {
+        background-image: url(../img/preview-bg-small.jpg);
+    }
+
+    .header {
+        &__inner {
+            height: auto;
+            padding-top: 45px;
+        }
+    }
+
+    .burger-menu__line {
+            width: 26px;
+            margin-bottom: 4px;
+    }
+
+    .preview {
+        padding-bottom: 61px;
+        padding-top: 142px;
+
+        &__search {
+            height: 48px;
+            padding-right: 123px;
+            font-size: 14px;
+            line-height: 17px;
+            letter-spacing: -0.5px;
+    
+            &::placeholder {
+                font-size: 14px;
+                line-height: 17px;
+            }
+        }
+
+        &__btn {
+            right: 9px;
+            top: 9px;
+        }
+    }
+
+    .steps {
+        padding-top: 8px;
+        padding-bottom: 0;
+
+        &__title {
+            margin-bottom: 20px;
+        }
+
+        &_inner {
+            column-gap: 0;
+        }
+
+        &__item {
+            font-size: 10px;
+            line-height: 12px;
+
+            &_bike {
+                text-align: left;
+                max-width: 75px;
+            }
+            &_calendar {
+                text-align: center;
+                max-width: 115px;
+            }
+            &_plane {
+                text-align: right;
+                max-width: 80px;
+            }
+
+            &-icon {
+                margin-bottom: 20px;
+            }
+
+            &-icon_bike {
+                margin-right: auto;
+                margin-left: 0;
+            }
+            &-icon_plane {
+                margin-left: auto;
+                margin-right: 0;
+            }
+        }
+    }
+
+    .destinations-slider{
+        &__arrow_left {
+            left: 25px;
+        }
+
+        &__arrow_right {
+            right: 25px;
+        }
+    }
+
+    .stories {
+        &-bg {
+            background-image: url(../img/stories-bg-small.jpg);
+        }
+
+        padding-top: 7px;
+
+        &__title {
+            margin-bottom: 10px;
+        }
+
+        &__item {
+            margin-bottom: 15px;
+
+            &:last-child {
+                margin-bottom: 10px;
+            }
+
+            &-title {
+                font-size: 11px;
+                line-height: 13px;
+                margin-top: 5px;
+            }
+
+            &-text {
+                max-height: 89px;
+            }
+        }
+    }
+
+    .footer__inner {
+        padding-top: 7px;
+        padding-left: 10px
+    }
+}
+
+@media (max-width: 370px) {
+    .destinations-slider__item {
+        min-width: 330px;
+        min-height: 192px;
+    }
+
+    .stories {
+        &__item {
+            margin-bottom: 10px;
+
+            &-title {
+                font-size: 11px;
+                line-height: 13px;
+                margin-top: 0;
+                margin-bottom: 5px;
+            }
+
+            &-text {
+                margin-top: 5px;
+            }
+        }
+    }
+}
+
+@media (max-width: 340px) {
+    .destinations-slider__item {
+        min-width: 310px;
+        min-height: 180px;
+    }
+}
